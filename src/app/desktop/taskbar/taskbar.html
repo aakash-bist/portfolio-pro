@@ -1,0 +1,31 @@
+<div class="taskbar">
+  <button class="start-btn" (click)="toggleStartMenu()">⌘ Start</button>
+
+  @if (startMenuOpen()) {
+    <div class="start-menu">
+      <div class="start-menu-item" (click)="openApp('terminal', 'Terminal')">🖥 Terminal</div>
+      <div class="start-menu-item" (click)="openApp('about', 'About Me')">👤 About</div>
+      <div class="start-menu-item" (click)="openApp('projects', 'Projects')">📁 Projects</div>
+      <div class="start-menu-item" (click)="openApp('skills', 'Skills')">⚡ Skills</div>
+      <div class="start-menu-item" (click)="openApp('contact', 'Contact')">✉ Contact</div>
+    </div>
+  }
+
+  <div class="taskbar-windows">
+    @for (win of windows(); track win.id) {
+      <button
+        class="taskbar-item"
+        [class.active]="win.focused && !win.minimized"
+        (click)="onTaskbarItemClick(win.id)"
+      >
+        {{ win.title }}
+      </button>
+    }
+  </div>
+
+  <div class="system-tray">
+    <span class="tray-item">CPU {{ cpu().toFixed(0) }}%</span>
+    <span class="tray-item">MEM {{ memory().toFixed(0) }}%</span>
+    <span class="tray-item clock">{{ clock() }}</span>
+  </div>
+</div>

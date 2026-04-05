@@ -1,0 +1,102 @@
+.window {
+  position: absolute;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #3c3c3c;
+  transition: box-shadow 0.15s;
+}
+
+.window.focused {
+  box-shadow: 0 12px 48px rgba(0, 0, 0, 0.7);
+  border-color: #555;
+}
+
+.window.maximized {
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: calc(100% - 48px) !important;
+  border-radius: 0;
+}
+
+.window.minimized {
+  display: none;
+}
+
+.title-bar {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  background: #2d2d2d;
+  padding: 0 12px;
+  cursor: grab;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.title-bar:active {
+  cursor: grabbing;
+}
+
+.title-bar-buttons {
+  display: flex;
+  gap: 8px;
+  margin-right: 12px;
+}
+
+.title-bar-buttons button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn-close {
+  background: #ff5f57;
+}
+.btn-close:hover {
+  background: #ff3b30;
+}
+
+.btn-minimize {
+  background: #ffbd2e;
+}
+.btn-minimize:hover {
+  background: #f5a623;
+}
+
+.btn-maximize {
+  background: #28c840;
+}
+.btn-maximize:hover {
+  background: #1db934;
+}
+
+.title-text {
+  color: #ccc;
+  font-size: 12px;
+  font-family: -apple-system, 'Segoe UI', sans-serif;
+  flex: 1;
+  text-align: center;
+  margin-right: 60px;
+}
+
+.window-content {
+  flex: 1;
+  background: #1e1e1e;
+  overflow: auto;
+}
+
+.resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+}

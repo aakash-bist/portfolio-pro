@@ -1,0 +1,32 @@
+<div class="terminal" (click)="focusInput()">
+  <div class="output" #outputContainer>
+    @for (line of lines(); track $index) {
+      @if (line.prompt) {
+        <div class="line">
+          <span class="prompt">{{ line.prompt }}</span>
+          <span class="command">{{ line.command }}</span>
+        </div>
+      }
+      @if (line.output) {
+        <pre class="result" [class.error]="line.isError" [class.boot-line]="!booted()">{{ line.output }}</pre>
+      }
+    }
+  </div>
+
+  @if (booted()) {
+    <div class="input-line">
+      <span class="prompt">{{ prompt() }}</span>
+      <input
+        #inputEl
+        type="text"
+        class="input"
+        [ngModel]="currentInput()"
+        (ngModelChange)="currentInput.set($event)"
+        (keydown)="onKeyDown($event)"
+        spellcheck="false"
+        autocomplete="off"
+        autofocus
+      />
+    </div>
+  }
+</div>

@@ -1,0 +1,14 @@
+<div class="icons-container">
+  @for (icon of icons(); track icon.id) {
+    <div
+      class="desktop-icon"
+      [style.left.px]="icon.x"
+      [style.top.px]="icon.y"
+      (mousedown)="onMouseDown($event, icon)"
+      (dblclick)="onDblClick(icon)"
+    >
+      <span class="icon-emoji">{{ icon.icon }}</span>
+      <span class="icon-label">{{ icon.label }}</span>
+    </div>
+  }
+</div>

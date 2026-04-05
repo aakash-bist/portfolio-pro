@@ -1,0 +1,35 @@
+<div class="desktop">
+  <app-desktop-icons />
+
+  @for (win of windows(); track win.id) {
+    <app-window
+      [state]="win"
+      (closed)="onClose($event)"
+      (focused)="onFocus($event)"
+      (minimized)="onMinimize($event)"
+      (maximized)="onMaximize($event)"
+      (moved)="onMove($event)"
+      (resized)="onResize($event)"
+    >
+      @switch (win.type) {
+        @case ('terminal') {
+          <app-terminal />
+        }
+        @case ('about') {
+          <app-win-about />
+        }
+        @case ('projects') {
+          <app-win-projects />
+        }
+        @case ('skills') {
+          <app-win-skills />
+        }
+        @case ('contact') {
+          <app-win-contact />
+        }
+      }
+    </app-window>
+  }
+
+  <app-taskbar />
+</div>

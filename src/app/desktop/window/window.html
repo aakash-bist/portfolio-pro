@@ -1,0 +1,28 @@
+<div
+  class="window"
+  [class.focused]="state().focused"
+  [class.maximized]="state().maximized"
+  [class.minimized]="state().minimized"
+  [style.left.px]="state().maximized ? 0 : state().x"
+  [style.top.px]="state().maximized ? 0 : state().y"
+  [style.width.px]="state().maximized ? null : state().width"
+  [style.height.px]="state().maximized ? null : state().height"
+  [style.z-index]="state().zIndex"
+  (mousedown)="onWindowClick()"
+  #windowEl
+>
+  <div class="title-bar" (mousedown)="onTitleBarMouseDown($event)">
+    <div class="title-bar-buttons">
+      <button class="btn-close" (click)="onClose()" (mousedown)="$event.stopPropagation()"></button>
+      <button class="btn-minimize" (click)="onMinimize()" (mousedown)="$event.stopPropagation()"></button>
+      <button class="btn-maximize" (click)="onMaximize()" (mousedown)="$event.stopPropagation()"></button>
+    </div>
+    <span class="title-text">{{ state().title }}</span>
+  </div>
+
+  <div class="window-content">
+    <ng-content />
+  </div>
+
+  <div class="resize-handle" (mousedown)="onResizeMouseDown($event)"></div>
+</div>
