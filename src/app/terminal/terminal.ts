@@ -131,8 +131,30 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
 
     await this.delay(200);
 
-    const banner = [
+    const isMobile = window.innerWidth < 600;
+
+    const banner = isMobile ? [
       '',
+      '  ┌───────────────────────────────┐',
+      '  │                               │',
+      '  │      A A K A S H              │',
+      '  │      B I S T                  │',
+      '  │                               │',
+      '  │      Full-Stack Developer     │',
+      '  │      Noida, India             │',
+      '  │                               │',
+      '  ├───────────────────────────────┤',
+      '  │                               │',
+      '  │   > help     - commands       │',
+      '  │   > about    - about me       │',
+      '  │   > projects - my work        │',
+      '  │   > resume   - download       │',
+      '  │   > startx   - launch GUI     │',
+      '  │                               │',
+      '  └───────────────────────────────┘',
+      '',
+    ].join('\n') : [
+       '',
       '  ╔══════════════════════════════════════════════════════╗',
       '  ║                                                      ║',
       '  ║     █████╗  █████╗ ██╗  ██╗ █████╗ ███████╗██╗  ██╗  ║',
@@ -149,6 +171,8 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
       '  ║   Type "help" to see available commands              ║',
       '  ║   Type "about" to learn more about me                ║',
       '  ║   Type "projects" to view my work                    ║',
+      '  ║   Type "resume" to download my resume                ║',
+      '  ║   Type "startx" to launch desktop GUI                ║',
       '  ║                                                      ║',
       '  ╚══════════════════════════════════════════════════════╝',
       '',

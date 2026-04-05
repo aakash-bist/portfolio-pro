@@ -48,6 +48,11 @@ import { PROJECTS } from '../../shared/data/portfolio.data';
     .project-status.archived { background: #3a2a1a; color: #f59e0b; }
     .project-desc { color: #999; font-size: 13px; margin: 4px 0 8px; }
     .project-tech { color: #666; font-size: 12px; }
+    @media (max-width: 600px) {
+      .projects-content { padding: 12px; }
+      .project-card { padding: 10px; }
+      .project-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+    }
   `,
 })
 export class WinProjectsComponent {

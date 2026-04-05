@@ -36,6 +36,11 @@ import { SKILLS } from '../../shared/data/portfolio.data';
     .skill-bar { flex: 1; height: 6px; background: #333; border-radius: 3px; overflow: hidden; }
     .skill-fill { height: 100%; background: linear-gradient(90deg, #00ff41, #00cc33); border-radius: 3px; transition: width 0.5s; }
     .skill-pct { width: 36px; text-align: right; font-size: 12px; color: #888; }
+    @media (max-width: 600px) {
+      .skills-content { padding: 12px; }
+      .skill-name { width: 70px; font-size: 11px; }
+      .skill-pct { width: 28px; font-size: 11px; }
+    }
   `,
 })
 export class WinSkillsComponent {

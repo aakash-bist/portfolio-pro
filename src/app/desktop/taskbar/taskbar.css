@@ -13,6 +13,13 @@
   gap: 4px;
 }
 
+@media (max-width: 600px) {
+  .taskbar {
+    height: 40px;
+    padding: 0 4px;
+  }
+}
+
 .start-btn {
   background: #2a2a2a;
   color: #00ff41;
@@ -91,6 +98,24 @@
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .system-tray {
+    gap: 6px;
+  }
+  .tray-item {
+    display: none;
+  }
+  .start-btn {
+    padding: 4px 10px;
+    font-size: 12px;
+  }
+  .taskbar-item {
+    max-width: 80px;
+    padding: 4px 8px;
+    font-size: 11px;
+  }
 }
 
 .tray-item {

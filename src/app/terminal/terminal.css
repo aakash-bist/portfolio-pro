@@ -21,6 +21,14 @@
   cursor: text;
 }
 
+@media (max-width: 600px) {
+  .terminal {
+    font-size: 13px;
+    padding: 10px;
+    line-height: 1.5;
+  }
+}
+
 .output {
   flex: 1;
   overflow-y: auto;
@@ -32,7 +40,8 @@
 
 .line {
   white-space: pre-wrap;
-  word-break: break-all;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .prompt {
@@ -50,9 +59,11 @@
   padding: 0;
   color: #ccc;
   white-space: pre-wrap;
-  word-break: break-all;
+  word-break: break-word;
+  overflow-wrap: break-word;
   font-family: inherit;
   font-size: inherit;
+  overflow-x: auto;
 }
 
 .result.error {

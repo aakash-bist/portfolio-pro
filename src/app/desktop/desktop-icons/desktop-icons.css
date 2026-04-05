@@ -29,6 +29,19 @@
   margin-bottom: 4px;
 }
 
+@media (max-width: 600px) {
+  .desktop-icon {
+    width: 64px;
+    padding: 6px 2px;
+  }
+  .icon-emoji {
+    font-size: 28px;
+  }
+  .icon-label {
+    font-size: 10px;
+  }
+}
+
 .icon-label {
   color: #ddd;
   font-size: 11px;

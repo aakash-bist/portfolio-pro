@@ -100,3 +100,16 @@
   height: 16px;
   cursor: nwse-resize;
 }
+
+@media (max-width: 600px) {
+  .window {
+    border-radius: 0;
+  }
+  .title-text {
+    font-size: 11px;
+    margin-right: 36px;
+  }
+  .resize-handle {
+    display: none;
+  }
+}

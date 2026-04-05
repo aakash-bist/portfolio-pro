@@ -18,16 +18,20 @@ export class WindowManagerService {
   open(type: WindowType, title: string): string {
     const id = `win-${++this.windowCounter}`;
     const offset = (this.windowCounter % 8) * 30;
+    const vw = typeof window !== 'undefined' ? window.innerWidth : 1024;
+    const vh = typeof window !== 'undefined' ? window.innerHeight : 768;
+    const isMobile = vw < 640;
+
     const win: WindowState = {
       id,
       title,
       type,
-      x: 80 + offset,
-      y: 40 + offset,
-      width: type === 'terminal' ? 800 : 600,
-      height: type === 'terminal' ? 500 : 450,
+      x: isMobile ? 0 : 80 + offset,
+      y: isMobile ? 0 : 40 + offset,
+      width: isMobile ? vw : (type === 'terminal' ? 800 : 600),
+      height: isMobile ? vh - 48 : (type === 'terminal' ? 500 : 450),
       minimized: false,
-      maximized: false,
+      maximized: isMobile,
       focused: true,
       zIndex: this.nextZIndex++,
     };

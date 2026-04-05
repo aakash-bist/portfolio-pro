@@ -43,6 +43,12 @@ import { ABOUT, RESUME_URL } from '../../shared/data/portfolio.data';
       margin: 0 auto 16px;
       display: block;
     }
+    @media (max-width: 600px) {
+      .about-content { padding: 16px; }
+      .avatar { width: 90px; height: 90px; }
+      h2 { font-size: 20px; }
+      .detail-item { flex-direction: column; gap: 2px; }
+    }
     h2 { margin: 0 0 4px; color: #fff; font-size: 24px; }
     .role { color: #00ff41; margin: 0 0 4px; font-size: 14px; }
     .location { color: #888; margin: 0 0 16px; font-size: 13px; }
