@@ -1,4 +1,5 @@
 import { CommandFactory } from './command-factory';
+import { ABOUT } from '../../../shared/data/portfolio.data';
 
 export const createAboutCommand: CommandFactory = () => ({
   name: 'about',
@@ -8,22 +9,18 @@ export const createAboutCommand: CommandFactory = () => ({
     isError: false,
     output: [
       '╔════════════════════════════════════════════════════════╗',
-      '║             AAKASH BIST — About Me                    ║',
+      `║             ${ABOUT.name.toUpperCase()} — About Me                    ║`,
       '╠════════════════════════════════════════════════════════╣',
-      '║  Name:       Aakash Bist                              ║',
-      '║  Role:       Full Stack Developer | 6+ Years Exp      ║',
-      '║  Location:   Noida, India                             ║',
-      '║  Education:  B.Tech CSE — MDU Rohtak (GPA: 8.1)       ║',
+      `║  Name:       ${ABOUT.name.padEnd(42)}║`,
+      `║  Role:       ${ABOUT.role.padEnd(42)}║`,
+      `║  Location:   ${ABOUT.location.padEnd(42)}║`,
+      `║  Education:  ${ABOUT.education.padEnd(42)}║`,
       '╠════════════════════════════════════════════════════════╣',
       '║                                                        ║',
-      '║  Full Stack Developer with 6+ years of experience      ║',
-      '║  building scalable web applications using MEAN and     ║',
-      '║  MERN stacks. Skilled in cloud platforms, database     ║',
-      '║  management, and leading cross-functional teams to     ║',
-      '║  deliver impactful solutions.                          ║',
+      ...ABOUT.summary.match(/.{1,52}/g)!.map(l => `║  ${l.padEnd(54)}║`),
       '║                                                        ║',
       '╠════════════════════════════════════════════════════════╣',
-      '║  🏆 Smart India Hackathon Winner (2019 & 2020)         ║',
+      `║  🏆 ${ABOUT.awards.padEnd(51)}║`,
       '╠════════════════════════════════════════════════════════╣',
       '║  Run "skills" to see my tech stack                     ║',
       '║  Run "projects" to see my work                         ║',

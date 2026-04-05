@@ -1,41 +1,9 @@
 import { CommandFactory } from './command-factory';
+import { SKILLS } from '../../../shared/data/portfolio.data';
 
-interface Skill {
-  name: string;
-  level: number;
-}
-
-const SKILLS_DATA: Record<string, Skill[]> = {
-  frontend: [
-    { name: 'Angular 2+', level: 95 },
-    { name: 'React', level: 80 },
-    { name: 'Tailwind CSS', level: 85 },
-    { name: 'Bootstrap', level: 80 },
-    { name: 'Angular Material', level: 85 },
-  ],
-  backend: [
-    { name: 'Node.js', level: 90 },
-    { name: 'NestJS', level: 80 },
-    { name: 'Express.js', level: 85 },
-  ],
-  databases: [
-    { name: 'MongoDB', level: 90 },
-    { name: 'PostgreSQL', level: 80 },
-    { name: 'MySQL', level: 80 },
-    { name: 'Redis', level: 75 },
-    { name: 'Elasticsearch', level: 75 },
-    { name: 'Amazon Redshift', level: 75 },
-    { name: 'Snowflake', level: 70 },
-  ],
-  tools: [
-    { name: 'Docker', level: 80 },
-    { name: 'Git', level: 95 },
-    { name: 'Firebase', level: 80 },
-    { name: 'Vercel', level: 80 },
-    { name: 'Cypress', level: 75 },
-    { name: 'n8n', level: 70 },
-  ],
-};
+const SKILLS_MAP: Record<string, { name: string; level: number }[]> = Object.fromEntries(
+  SKILLS.map(cat => [cat.name.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-'), cat.skills])
+);
 
 function skillBar(level: number): string {
   const filled = Math.round(level / 5);
@@ -49,11 +17,11 @@ export const createSkillsCommand: CommandFactory = () => ({
   execute: (ctx) => {
     const filter = ctx.flags['filter'];
     const categories = typeof filter === 'string'
-      ? { [filter]: SKILLS_DATA[filter] }
-      : SKILLS_DATA;
+      ? { [filter]: SKILLS_MAP[filter] }
+      : SKILLS_MAP;
 
-    if (typeof filter === 'string' && !SKILLS_DATA[filter]) {
-      const valid = Object.keys(SKILLS_DATA).join(', ');
+    if (typeof filter === 'string' && !SKILLS_MAP[filter]) {
+      const valid = Object.keys(SKILLS_MAP).join(', ');
       return { output: `skills: unknown category '${filter}'\nAvailable: ${valid}`, isError: true };
     }
 
@@ -72,7 +40,7 @@ export const createSkillsCommand: CommandFactory = () => ({
         ...sections,
         '',
         'Use "skills --filter <category>" to filter',
-        `Categories: ${Object.keys(SKILLS_DATA).join(', ')}`,
+        `Categories: ${Object.keys(SKILLS_MAP).join(', ')}`,
       ].join('\n'),
     };
   },

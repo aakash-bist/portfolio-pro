@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { CONTACT } from '../../shared/data/portfolio.data';
 
 @Component({
   selector: 'app-win-contact',
@@ -6,26 +7,16 @@ import { Component } from '@angular/core';
   template: `
     <div class="contact-content">
       <h3>Get In Touch</h3>
-      <div class="contact-item">
-        <span class="label">📍 Location</span>
-        <span class="value">Noida, India</span>
-      </div>
-      <div class="contact-item">
-        <span class="label">📞 Phone</span>
-        <span class="value">(+91) 9555747477</span>
-      </div>
-      <div class="contact-item">
-        <span class="label">✉️ Email</span>
-        <a class="value" href="mailto:aakashbist&#64;outlook.com">aakashbist&#64;outlook.com</a>
-      </div>
-      <div class="contact-item">
-        <span class="label">🔗 LinkedIn</span>
-        <a class="value" href="https://linkedin.com/in/aakash-bist" target="_blank">linkedin.com/in/aakash-bist</a>
-      </div>
-      <div class="contact-item">
-        <span class="label">💻 GitHub</span>
-        <a class="value" href="https://github.com/aakash-bist" target="_blank">github.com/aakash-bist</a>
-      </div>
+      @for (c of contacts; track c.label) {
+        <div class="contact-item">
+          <span class="label">{{ c.icon }} {{ c.label }}</span>
+          @if (c.href) {
+            <a class="value" [href]="c.href" target="_blank">{{ c.value }}</a>
+          } @else {
+            <span class="value">{{ c.value }}</span>
+          }
+        </div>
+      }
       <hr />
       <p class="cta">Open to opportunities! Feel free to reach out.</p>
     </div>
@@ -49,4 +40,6 @@ import { Component } from '@angular/core';
     .cta { color: #00ff41; font-size: 14px; text-align: center; }
   `,
 })
-export class WinContactComponent {}
+export class WinContactComponent {
+  readonly contacts = CONTACT;
+}

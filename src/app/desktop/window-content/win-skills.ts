@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-
-interface SkillCategory {
-  name: string;
-  skills: { name: string; level: number }[];
-}
+import { SKILLS } from '../../shared/data/portfolio.data';
 
 @Component({
   selector: 'app-win-skills',
@@ -43,10 +39,5 @@ interface SkillCategory {
   `,
 })
 export class WinSkillsComponent {
-  categories: SkillCategory[] = [
-    { name: 'Frontend', skills: [{ name: 'Angular 2+', level: 95 }, { name: 'React', level: 80 }, { name: 'Tailwind CSS', level: 85 }, { name: 'Bootstrap', level: 80 }, { name: 'Angular Material', level: 85 }] },
-    { name: 'Backend', skills: [{ name: 'Node.js', level: 90 }, { name: 'NestJS', level: 80 }, { name: 'Express.js', level: 85 }] },
-    { name: 'Databases', skills: [{ name: 'MongoDB', level: 90 }, { name: 'PostgreSQL', level: 80 }, { name: 'MySQL', level: 80 }, { name: 'Redis', level: 75 }, { name: 'Elasticsearch', level: 75 }, { name: 'Redshift', level: 75 }, { name: 'Snowflake', level: 70 }] },
-    { name: 'Tools & Platforms', skills: [{ name: 'Docker', level: 80 }, { name: 'Git', level: 95 }, { name: 'Firebase', level: 80 }, { name: 'Vercel', level: 80 }, { name: 'Cypress', level: 75 }, { name: 'n8n', level: 70 }] },
-  ];
+  readonly categories = SKILLS;
 }

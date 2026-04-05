@@ -1,4 +1,5 @@
 import { CommandFactory } from './command-factory';
+import { CONTACT } from '../../../shared/data/portfolio.data';
 
 export const createContactCommand: CommandFactory = () => ({
   name: 'contact',
@@ -10,11 +11,7 @@ export const createContactCommand: CommandFactory = () => ({
       '┌──────────────────────────────────────────┐',
       '│             Contact Me                   │',
       '├──────────────────────────────────────────┤',
-      '│  📍 Location: Noida, India               │',
-      '│  📞 Phone:    (+91) 9555747477           │',
-      '│  ✉  Email:    aakashbist@outlook.com     │',
-      '│  🔗 LinkedIn: linkedin.com/in/aakash-bist│',
-      '│  💻 GitHub:   github.com/aakash-bist     │',
+      ...CONTACT.map(c => `│  ${c.icon} ${c.label.padEnd(10)} ${c.value.padEnd(25)}│`),
       '├──────────────────────────────────────────┤',
       '│  Open to opportunities!                  │',
       '│  Feel free to reach out.                 │',

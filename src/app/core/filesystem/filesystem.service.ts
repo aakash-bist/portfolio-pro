@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FileSystemNode } from '../../shared/models';
+import { ABOUT, CONTACT, EXPERIENCE, PROJECTS, SKILLS } from '../../shared/data/portfolio.data';
 
 @Injectable({ providedIn: 'root' })
 export class FileSystemService {
@@ -144,119 +145,72 @@ export class FileSystemService {
     const perms = node.permissions ?? (node.type === 'directory' ? 'drwxr-xr-x' : '-rw-r--r--');
     const size = String(node.size ?? (node.type === 'directory' ? 4096 : (node.content?.length ?? 0))).padStart(6);
     const date = node.modified ?? 'Apr  5 2026';
-    const name = node.type === 'directory' ? `\x1b[1;34m${node.name}/\x1b[0m` : node.name;
+    const name = node.type === 'directory' ? `${node.name}/` : node.name;
     return `${perms}  aakash  ${size}  ${date}  ${name}`;
   }
 
   private buildTree(): FileSystemNode {
+    const aboutContent = [
+      `Name:       ${ABOUT.name}`,
+      `Role:       ${ABOUT.role}`,
+      `Location:   ${ABOUT.location}`,
+      `Education:  ${ABOUT.education}`,
+      '',
+      ABOUT.summary,
+      '',
+      `Awards: ${ABOUT.awards}`,
+    ].join('\n');
+
+    const resumeContent = [
+      'WORK EXPERIENCE',
+      '═══════════════',
+      ...EXPERIENCE.flatMap(e => [
+        `${e.title} | ${e.company}     ${e.period}`,
+        ...e.highlights.map(h => `  - ${h}`),
+        '',
+      ]),
+      'Run "projects" to see my work.',
+      'Run "skills" to see my tech stack.',
+    ].join('\n');
+
+    const contactContent = CONTACT.map(c => `${c.icon} ${c.label}: ${c.value}`).join('\n');
+
+    const skillBar = (level: number): string => {
+      const filled = Math.round(level / 5);
+      return '█'.repeat(filled) + '░'.repeat(20 - filled);
+    };
+
+    const currentProjects = PROJECTS.filter(p => p.status === 'In Development');
+    const completedProjects = PROJECTS.filter(p => p.status !== 'In Development');
+
     const root = this.dir('/', [
       this.dir('home', [
         this.dir('aakash', [
-          this.file('.bashrc', '# ~/.bashrc\nexport PS1="aakash@portfolio:~$ "\nalias ll="ls -la"', 86),
-          this.file('about.txt',
-            'Name:       Aakash Bist\n' +
-            'Role:       Full Stack Developer | 5+ Years Exp\n' +
-            'Location:   Noida, India\n' +
-            'Education:  B.Tech CSE — MDU Rohtak (GPA: 8.1)\n' +
-            '\n' +
-            'Full Stack Developer with 5+ years of experience\n' +
-            'building scalable web applications using MEAN and\n' +
-            'MERN stacks. Skilled in cloud platforms, database\n' +
-            'management, and leading cross-functional teams.\n' +
-            '\n' +
-            'Awards: Smart India Hackathon Winner (2019 & 2020)',
-            320),
-          this.file('resume.txt',
-            'WORK EXPERIENCE\n' +
-            '═══════════════\n' +
-            'Sr. Software Developer | SupplyCopia     May 2025 - Present\n' +
-            '  - Transitioned from Algoscale for high-impact delivery\n' +
-            '  - Integrated Snowflake for 60% faster query response\n' +
-            '  - Improved data pipelines and cloud integrations\n' +
-            '\n' +
-            'Team Lead (MEAN Stack) | Algoscale       Aug 2021 - Apr 2025\n' +
-            '  - Led team of 5, integrated 150+ European hospitals\n' +
-            '  - 30% faster response, 20% improved stability\n' +
-            '  - Expanded service reach to 1400+ hospitals\n' +
-            '\n' +
-            'MEAN Stack Developer | E-Tech Services   Jan 2020 - Aug 2021\n' +
-            '  - Optimized APIs, 30% faster data retrieval\n' +
-            '  - Implemented agile, 20% delivery efficiency gain\n' +
-            '\n' +
-            'Frontend Developer | Planify (Intern)    Aug 2019 - Nov 2019\n' +
-            '  - Built interactive UIs with design team\n' +
-            '\n' +
-            'Run "projects" to see my work.\n' +
-            'Run "skills" to see my tech stack.',
-            680),
+          this.file('.bashrc', '# ~/.bashrc\nexport PS1="aakash@portfolio:~$ "\nalias ll="ls -la"'),
+          this.file('about.txt', aboutContent),
+          this.file('resume.txt', resumeContent),
+          this.file('contact.txt', contactContent),
+          this.dir('projects', [
+            this.dir('current',
+              currentProjects.map(p => this.file(
+                `${p.name.toLowerCase().replace(/[_\s]+/g, '-')}.md`,
+                `Project: ${p.name}\nTech:    ${p.tech}\nDesc:    ${p.desc}\nStatus:  ${p.status}`,
+              ))
+            ),
+            this.dir('completed',
+              completedProjects.map(p => this.file(
+                `${p.name.toLowerCase().replace(/[_\s]+/g, '-')}.md`,
+                `Project: ${p.name}\nTech:    ${p.tech}\nDesc:    ${p.desc}\nStatus:  ${p.status}`,
+              ))
+            ),
+          ]),
+          this.dir('skills',
+            SKILLS.map(cat => this.file(
+              `${cat.name.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-')}.txt`,
+              cat.skills.map(s => `${s.name.padEnd(17)}${skillBar(s.level)}  ${s.level}%`).join('\n'),
+            ))
+          ),
         ]),
-      ]),
-      this.dir('projects', [
-        this.dir('current', [
-          this.file('aakash-os.md',
-            'Project: AAKASH_OS\n' +
-            'Tech:    Angular, TypeScript, Tailwind\n' +
-            'Desc:    Terminal-based portfolio OS\n' +
-            'Status:  In Development',
-            120),
-        ]),
-        this.dir('completed', [
-          this.file('sc-analytics.md',
-            'Project: SC Analytics\n' +
-            'Tech:    Angular, Express.js, Redis, MySQL, MongoDB, Redshift, Elasticsearch\n' +
-            'Desc:    Data querying system with interactive visualizations\n' +
-            'Status:  Completed',
-            180),
-          this.file('mr-reporting.md',
-            'Project: MR Reporting\n' +
-            'Tech:    Angular, Loopback 3, MongoDB\n' +
-            'Desc:    B2B SaaS platform for 2000+ clients\n' +
-            'Status:  Completed',
-            130),
-          this.file('dhaam-organics.md',
-            'Project: Dhaam Organics\n' +
-            'Tech:    React, Node.js, MongoDB, Cloudinary, Material UI\n' +
-            'Desc:    E-commerce farm-to-table application\n' +
-            'Status:  Completed',
-            140),
-          this.file('stet-sikkim.md',
-            'Project: STET Sikkim Govt.\n' +
-            'Tech:    Angular, Node.js, MongoDB\n' +
-            'Desc:    Record management system — SIH Winner\n' +
-            'Status:  Completed',
-            125),
-        ]),
-      ]),
-      this.dir('skills', [
-        this.file('frontend.txt',
-          'Angular 2+       ████████████████████  95%\n' +
-          'React            ████████████████      80%\n' +
-          'Tailwind CSS     █████████████████     85%\n' +
-          'Bootstrap        ████████████████      80%\n' +
-          'Angular Material █████████████████     85%',
-          250),
-        this.file('backend.txt',
-          'Node.js          ███████████████████   90%\n' +
-          'NestJS           ████████████████      80%\n' +
-          'Express.js       █████████████████     85%',
-          150),
-        this.file('databases.txt',
-          'MongoDB          ███████████████████   90%\n' +
-          'PostgreSQL       ████████████████      80%\n' +
-          'MySQL            ████████████████      80%\n' +
-          'Redis            ███████████████       75%\n' +
-          'Elasticsearch    ███████████████       75%\n' +
-          'Amazon Redshift  ███████████████       75%\n' +
-          'Snowflake        ██████████████        70%',
-          350),
-        this.file('tools.txt',
-          'Docker           ████████████████      80%\n' +
-          'Git              ████████████████████  95%\n' +
-          'Firebase         ████████████████      80%\n' +
-          'Vercel           ████████████████      80%\n' +
-          'Cypress          ███████████████       75%\n' +
-          'n8n              ██████████████        70%',
-          300),
       ]),
     ]);
 
@@ -275,13 +229,13 @@ export class FileSystemService {
     };
   }
 
-  private file(name: string, content: string, size?: number): FileSystemNode {
+  private file(name: string, content: string): FileSystemNode {
     return {
       name,
       type: 'file',
       content,
       permissions: '-rw-r--r--',
-      size: size ?? content.length,
+      size: content.length,
       modified: 'Apr  5 2026',
     };
   }

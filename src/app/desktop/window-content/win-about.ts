@@ -1,27 +1,28 @@
 import { Component } from '@angular/core';
+import { ABOUT, RESUME_URL } from '../../shared/data/portfolio.data';
 
 @Component({
   selector: 'app-win-about',
   standalone: true,
   template: `
     <div class="about-content">
-      <div class="avatar">AB</div>
-      <h2>Aakash Bist</h2>
-      <p class="role">Full Stack Developer | 6+ Years Experience</p>
-      <p class="location">📍 Noida, India</p>
+      <img class="avatar" src="profile.png" alt="{{ about.name }}" />
+      <h2>{{ about.name }}</h2>
+      <p class="role">{{ about.role }}</p>
+      <p class="location">📍 {{ about.location }}</p>
       <hr />
-      <p>Full Stack Developer with 6+ years of experience building scalable web applications using MEAN and MERN stacks. Skilled in cloud platforms, database management, and leading cross-functional teams to deliver impactful solutions.</p>
+      <p>{{ about.summary }}</p>
       <div class="details">
         <div class="detail-item">
           <span class="detail-label">🎓 Education</span>
-          <span class="detail-value">B.Tech CSE — MDU Rohtak (GPA: 8.1)</span>
+          <span class="detail-value">{{ about.education }}</span>
         </div>
         <div class="detail-item">
           <span class="detail-label">🏆 Awards</span>
-          <span class="detail-value">Smart India Hackathon Winner (2019 & 2020)</span>
+          <span class="detail-value">{{ about.awards }}</span>
         </div>
       </div>
-      <a class="download-btn" href="https://drive.google.com/uc?export=download&id=1aycqtFzpT93uc2sVx3Z_i7apB5atp9Sy" target="_blank" rel="noopener">
+      <a class="download-btn" [href]="resumeUrl" target="_blank" rel="noopener">
         📄 Download Resume
       </a>
     </div>
@@ -34,17 +35,13 @@ import { Component } from '@angular/core';
       text-align: center;
     }
     .avatar {
-      width: 80px;
-      height: 80px;
-      background: #00ff41;
-      color: #111;
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
-      font-weight: bold;
+      object-fit: cover;
+      border: 3px solid #00ff41;
       margin: 0 auto 16px;
+      display: block;
     }
     h2 { margin: 0 0 4px; color: #fff; font-size: 24px; }
     .role { color: #00ff41; margin: 0 0 4px; font-size: 14px; }
@@ -70,4 +67,7 @@ import { Component } from '@angular/core';
     .download-btn:hover { background: #00cc33; }
   `,
 })
-export class WinAboutComponent {}
+export class WinAboutComponent {
+  readonly about = ABOUT;
+  readonly resumeUrl = RESUME_URL;
+}
