@@ -4,10 +4,7 @@ import { WindowComponent } from './window/window';
 import { TaskbarComponent } from './taskbar/taskbar';
 import { DesktopIconsComponent } from './desktop-icons/desktop-icons';
 import { TerminalComponent } from '../terminal/terminal';
-import { WinAboutComponent } from './window-content/win-about';
-import { WinProjectsComponent } from './window-content/win-projects';
-import { WinSkillsComponent } from './window-content/win-skills';
-import { WinContactComponent } from './window-content/win-contact';
+import { WinFileManagerComponent } from './window-content/win-file-manager';
 
 @Component({
   selector: 'app-desktop',
@@ -17,10 +14,7 @@ import { WinContactComponent } from './window-content/win-contact';
     TaskbarComponent,
     DesktopIconsComponent,
     TerminalComponent,
-    WinAboutComponent,
-    WinProjectsComponent,
-    WinSkillsComponent,
-    WinContactComponent,
+    WinFileManagerComponent,
   ],
   templateUrl: './desktop.html',
   styleUrl: './desktop.css',

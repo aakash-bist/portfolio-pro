@@ -12,7 +12,7 @@ export interface WindowState {
   zIndex: number;
 }
 
-export type WindowType = 'terminal' | 'about' | 'projects' | 'skills' | 'contact' | 'file-viewer';
+export type WindowType = 'terminal' | 'about' | 'projects' | 'skills' | 'contact' | 'file-manager';
 
 export interface DesktopIcon {
   id: string;

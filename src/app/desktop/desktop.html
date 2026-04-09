@@ -15,17 +15,8 @@
         @case ('terminal') {
           <app-terminal />
         }
-        @case ('about') {
-          <app-win-about />
-        }
-        @case ('projects') {
-          <app-win-projects />
-        }
-        @case ('skills') {
-          <app-win-skills />
-        }
-        @case ('contact') {
-          <app-win-contact />
+        @default {
+          <app-win-file-manager [section]="win.type" />
         }
       }
     </app-window>

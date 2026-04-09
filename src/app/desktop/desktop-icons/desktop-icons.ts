@@ -17,6 +17,7 @@ export class DesktopIconsComponent {
     { id: 'projects', label: 'Projects', windowType: 'projects', icon: '📁', x: 20, y: 180 },
     { id: 'skills', label: 'Skills', windowType: 'skills', icon: '⚡', x: 20, y: 265 },
     { id: 'contact', label: 'Contact', windowType: 'contact', icon: '✉', x: 20, y: 350 },
+    { id: 'files', label: 'Files', windowType: 'file-manager', icon: '📂', x: 20, y: 435 },
   ]);
 
   private static readonly ICON_W = 80;

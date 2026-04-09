@@ -29,9 +29,9 @@
 .title-bar {
   display: flex;
   align-items: center;
-  height: 32px;
+  height: 36px;
   background: #2d2d2d;
-  padding: 0 12px;
+  padding: 0 10px;
   cursor: grab;
   user-select: none;
   flex-shrink: 0;
@@ -41,49 +41,60 @@
   cursor: grabbing;
 }
 
+.title-text {
+  color: #ccc;
+  font-size: 13px;
+  font-family: -apple-system, 'Segoe UI', 'Ubuntu', sans-serif;
+  flex: 1;
+  text-align: center;
+  padding-left: 90px;
+}
+
 .title-bar-buttons {
   display: flex;
-  gap: 8px;
-  margin-right: 12px;
+  gap: 0;
+  margin-left: auto;
 }
 
 .title-bar-buttons button {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
+  width: 32px;
+  height: 28px;
   border: none;
   cursor: pointer;
   padding: 0;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: background 0.15s;
 }
 
-.btn-close {
-  background: #ff5f57;
-}
-.btn-close:hover {
-  background: #ff3b30;
+.title-bar-buttons button svg {
+  width: 12px;
+  height: 12px;
+  stroke: #999;
+  stroke-width: 1.5;
+  stroke-linecap: round;
 }
 
-.btn-minimize {
-  background: #ffbd2e;
+.title-bar-buttons button:hover svg {
+  stroke: #fff;
 }
+
 .btn-minimize:hover {
-  background: #f5a623;
+  background: #444;
 }
 
-.btn-maximize {
-  background: #28c840;
-}
 .btn-maximize:hover {
-  background: #1db934;
+  background: #444;
 }
 
-.title-text {
-  color: #ccc;
-  font-size: 12px;
-  font-family: -apple-system, 'Segoe UI', sans-serif;
-  flex: 1;
-  text-align: center;
-  margin-right: 60px;
+.btn-close:hover {
+  background: #e84033;
+}
+.btn-close:hover svg {
+  stroke: #fff;
 }
 
 .window-content {
@@ -107,7 +118,7 @@
   }
   .title-text {
     font-size: 11px;
-    margin-right: 36px;
+    padding-left: 0;
   }
   .resize-handle {
     display: none;
