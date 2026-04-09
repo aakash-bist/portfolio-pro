@@ -1,4 +1,7 @@
 <div class="terminal" (click)="focusInput()">
+  <div class="scanlines"></div>
+  <div class="glow-overlay"></div>
+
   <div class="output" #outputContainer>
     @for (line of lines(); track $index) {
       @if (line.prompt) {
@@ -14,19 +17,39 @@
   </div>
 
   @if (booted()) {
-    <div class="input-line">
-      <span class="prompt">{{ prompt() }}</span>
-      <input
-        #inputEl
-        type="text"
-        class="input"
-        [ngModel]="currentInput()"
-        (ngModelChange)="currentInput.set($event)"
-        (keydown)="onKeyDown($event)"
-        spellcheck="false"
-        autocomplete="off"
-        autofocus
-      />
+    <div class="controls">
+      <div class="input-row">
+        <span class="prompt">{{ prompt() }}</span>
+        <input
+          #inputEl
+          type="text"
+          class="input"
+          [attr.placeholder]="activeSuggestion() || '...'"
+          [ngModel]="currentInput()"
+          (ngModelChange)="currentInput.set($event)"
+          (keydown)="onKeyDown($event)"
+          spellcheck="false"
+          autocomplete="off"
+          autofocus
+        />
+      </div>
+      <div class="hint-bar">
+        <span class="hint" (click)="runQuickCommand('help'); $event.stopPropagation()">help</span>
+        <span class="hint-sep">·</span>
+        <span class="hint" (click)="runQuickCommand('about'); $event.stopPropagation()">about</span>
+        <span class="hint-sep">·</span>
+        <span class="hint" (click)="runQuickCommand('projects'); $event.stopPropagation()">projects</span>
+        <span class="hint-sep">·</span>
+        <span class="hint" (click)="runQuickCommand('skills'); $event.stopPropagation()">skills</span>
+        <span class="hint-sep">·</span>
+        <span class="hint" (click)="runQuickCommand('startx'); $event.stopPropagation()">startx</span>
+        <span class="hint-spacer"></span>
+        <span class="shortcut">Tab autocomplete</span>
+        <span class="hint-sep">·</span>
+        <span class="shortcut">↑↓ history</span>
+        <span class="hint-sep">·</span>
+        <span class="shortcut">Ctrl+L clear</span>
+      </div>
     </div>
   }
 </div>

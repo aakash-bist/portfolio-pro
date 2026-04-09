@@ -1,4 +1,4 @@
-import { Component, inject, signal, computed, OnInit, DestroyRef } from '@angular/core';
+import { Component, inject, signal, computed, OnInit, DestroyRef, output } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { interval } from 'rxjs';
 import { WindowManagerService } from '../../core/window-manager/window-manager.service';
@@ -21,6 +21,7 @@ export class TaskbarComponent implements OnInit {
   readonly cpu = this.systemState.cpu;
   readonly memory = this.systemState.memory;
   readonly startMenuOpen = signal(false);
+  readonly exitDesktop = output<void>();
 
   ngOnInit(): void {
     this.updateClock();
@@ -40,6 +41,12 @@ export class TaskbarComponent implements OnInit {
   openApp(type: WindowType, title: string): void {
     this.wm.open(type, title);
     this.startMenuOpen.set(false);
+  }
+
+  onExitDesktop(): void {
+    this.startMenuOpen.set(false);
+    this.wm.closeAll();
+    this.exitDesktop.emit();
   }
 
   private updateClock(): void {

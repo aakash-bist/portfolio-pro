@@ -8,6 +8,16 @@
       <div class="start-menu-item" (click)="openApp('projects', 'Projects')">📁 Projects</div>
       <div class="start-menu-item" (click)="openApp('skills', 'Skills')">⚡ Skills</div>
       <div class="start-menu-item" (click)="openApp('contact', 'Contact')">✉ Contact</div>
+      <div class="start-menu-separator"></div>
+      <div class="start-menu-item exit-item" (click)="onExitDesktop()">
+        <span class="exit-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false">
+            <path d="M12 3v9" />
+            <path d="M6.22 6.22a8 8 0 1 0 11.31 0" />
+          </svg>
+        </span>
+        <span>Exit Desktop</span>
+      </div>
     </div>
   }
 

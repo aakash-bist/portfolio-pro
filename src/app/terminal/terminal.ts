@@ -19,17 +19,34 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
   private shouldScroll = false;
 
   readonly lines = this.terminalService.output;
+  readonly history = this.terminalService.history;
   readonly prompt = this.terminalService.prompt;
   readonly currentInput = signal('');
   readonly booted = signal(false);
+  readonly quickCommands = ['help', 'about', 'projects', 'skills', 'contact', 'resume', 'startx'];
+  readonly commandCount = computed(() => this.history().length);
+  readonly outputCount = computed(() => this.lines().filter(line => !!line.output).length);
+  readonly activeSuggestion = computed(() => {
+    const input = this.currentInput().trim().toLowerCase();
+    if (!input) return this.quickCommands[0];
+    return this.quickCommands.find(cmd => cmd.startsWith(input)) ?? '';
+  });
 
   private historyIndex = -1;
   private savedInput = '';
 
   ngOnInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.runBootSequence();
+    if (!isPlatformBrowser(this.platformId)) return;
+
+    // Keep the existing terminal session when returning from desktop mode.
+    if (this.lines().length > 0) {
+      this.booted.set(true);
+      this.shouldScroll = true;
+      setTimeout(() => this.focusInput(), 50);
+      return;
     }
+
+    this.runBootSequence();
   }
 
   ngAfterViewChecked(): void {
@@ -41,6 +58,12 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
 
   onKeyDown(event: KeyboardEvent): void {
     if (!this.booted()) return;
+    if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 'l') {
+      event.preventDefault();
+      this.terminalService.clear();
+      this.shouldScroll = true;
+      return;
+    }
     if (event.key === 'Tab') {
       event.preventDefault();
       const completed = this.terminalService.tabComplete(this.currentInput());
@@ -59,6 +82,17 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
 
   focusInput(): void {
     this.inputEl?.nativeElement.focus();
+  }
+
+  fillQuickCommand(command: string): void {
+    this.currentInput.set(command);
+    this.focusInput();
+  }
+
+  runQuickCommand(command: string): void {
+    this.currentInput.set(command);
+    this.submitCommand();
+    this.focusInput();
   }
 
   private submitCommand(): void {
@@ -106,30 +140,92 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
   }
 
   private async runBootSequence(): Promise<void> {
-    const bootLines = [
-      { text: 'BIOS v2.4.1 — POST check...', delay: 300 },
-      { text: 'Memory:    512 MB OK', delay: 200 },
-      { text: 'CPU:       AAKASH-CORE @ 3.6 GHz', delay: 200 },
-      { text: 'Disk:      /dev/sda1  128 GB', delay: 200 },
-      { text: '', delay: 100 },
-      { text: 'Loading kernel.............. done', delay: 400 },
-      { text: 'Mounting filesystem......... done', delay: 300 },
-      { text: 'Starting network........... done', delay: 250 },
-      { text: 'Initializing services...... done', delay: 300 },
-      { text: '', delay: 100 },
-      { text: 'AAKASH_OS v1.0.0 (tty1)', delay: 200 },
-      { text: '', delay: 100 },
-      { text: `Last login: ${new Date().toString().slice(0, 24)} on tty1`, delay: 300 },
-      { text: '', delay: 100 },
+    const out = (text: string) => {
+      this.terminalService.addOutput({ output: text });
+      this.shouldScroll = true;
+    };
+
+    // Phase 1: Hardware (portfolio stats as system specs)
+    out('AAKASH_OS BIOS v2.4.1 — POST check...');
+    await this.delay(200);
+    out('Experience:  6+ years         Status: Active');
+    await this.delay(100);
+    out('Stack:       MEAN / MERN      Mode:   Full-Stack');
+    await this.delay(100);
+    out('Projects:    5 shipped        Awards: 2x SIH Winner');
+    await this.delay(150);
+    out('');
+
+    // Phase 2: Loading skill modules
+    out('Loading skill modules...');
+    await this.delay(120);
+
+    const modules = [
+      { mod: 'angular@latest',      tag: 'frontend',   status: 'active' },
+      { mod: 'react@18',            tag: 'frontend',   status: 'active' },
+      { mod: 'nodejs@20-lts',       tag: 'backend',    status: 'active' },
+      { mod: 'nestjs@10',           tag: 'backend',    status: 'active' },
+      { mod: 'mongodb@7',           tag: 'database',   status: 'active' },
+      { mod: 'postgresql@16',       tag: 'database',   status: 'active' },
+      { mod: 'redis@7',             tag: 'cache',      status: 'active' },
+      { mod: 'elasticsearch@8',     tag: 'search',     status: 'active' },
+      { mod: 'docker@24',           tag: 'devops',     status: 'active' },
+      { mod: 'tailwindcss@3',       tag: 'styling',    status: 'active' },
     ];
 
-    for (const line of bootLines) {
-      await this.delay(line.delay);
-      this.terminalService.addOutput({ output: line.text });
-      this.shouldScroll = true;
+    for (const m of modules) {
+      out(`  ✓ ${m.mod.padEnd(24)} [${m.tag}]`);
+      await this.delay(45 + Math.random() * 40);
     }
+    out(`${modules.length} modules loaded.`);
+    await this.delay(100);
+    out('');
 
-    await this.delay(200);
+    // Phase 3: Mounting work experience
+    out('Mounting work experience...');
+    await this.delay(100);
+    out('  /exp/supplycopia      Sr. Software Developer    2025–present');
+    await this.delay(60);
+    out('  /exp/algoscale        Team Lead (MEAN Stack)    2021–2025');
+    await this.delay(60);
+    out('  /exp/e-tech           MEAN Stack Developer      2020–2021');
+    await this.delay(60);
+    out('  /exp/planify          Frontend Developer        2019');
+    await this.delay(80);
+    out('Experience timeline mounted.');
+    out('');
+
+    // Phase 4: Indexing projects
+    out('Indexing shipped projects...');
+    await this.delay(100);
+    out('  [1] SC Analytics       Angular · Redshift · Redis       ● live');
+    await this.delay(50);
+    out('  [2] MR Reporting       Angular · Loopback · MongoDB     ● live   2000+ users');
+    await this.delay(50);
+    out('  [3] Dhaam Organics     React · Node.js · Cloudinary     ● live');
+    await this.delay(50);
+    out('  [4] STET Sikkim        Angular · Node.js · MongoDB      ● live   SIH Winner');
+    await this.delay(50);
+    out('  [5] AAKASH_OS          Angular · TypeScript              ◌ dev    you are here');
+    await this.delay(80);
+    out('Project index built.');
+    out('');
+
+    // Phase 5: System ready
+    out('Starting services...');
+    await this.delay(80);
+    out('  portfolio-server ......... running on :443');
+    await this.delay(50);
+    out('  contact-bridge ........... aakashbist@outlook.com');
+    await this.delay(50);
+    out('  github-link .............. github.com/aakash-bist');
+    await this.delay(50);
+    out('  linkedin-link ............ linkedin.com/in/aakash-bist');
+    await this.delay(80);
+    out('');
+    out('All systems operational.');
+    out(`AAKASH_PORTFOLIO v1.0.0 — ${new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}`);
+    await this.delay(150);
 
     const isMobile = window.innerWidth < 600;
 
@@ -138,7 +234,7 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
       '  ┌───────────────────────────────┐',
       '  │                               │',
       '  │      A A K A S H              │',
-      '  │      B I S T                  │',
+      '  │      P O R T F O L I O        │',
       '  │                               │',
       '  │      Full-Stack Developer     │',
       '  │      Noida, India             │',
@@ -164,7 +260,7 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
       '  ║    ██║  ██║██║  ██║██║  ██╗██║  ██║███████║██║  ██║  ║',
       '  ║    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝  ║',
       '  ║                                                      ║',
-      '  ║        Full-Stack Developer | India                  ║',
+      '  ║   Portfolio Experience | Full-Stack Developer         ║',
       '  ║                                                      ║',
       '  ╠══════════════════════════════════════════════════════╣',
       '  ║                                                      ║',

@@ -61,6 +61,43 @@
   background: #3a3a3a;
 }
 
+.start-menu-separator {
+  height: 1px;
+  background: #3b3b3b;
+  margin: 6px 10px;
+}
+
+.start-menu-item.exit-item {
+  color: #ff8a80;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.start-menu-item.exit-item:hover {
+  background: rgba(183, 28, 28, 0.25);
+  color: #ffb4ad;
+}
+
+.exit-icon {
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.exit-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .taskbar-windows {
   flex: 1;
   display: flex;

@@ -47,4 +47,8 @@ export class DesktopComponent {
   onResize(event: { id: string; width: number; height: number }): void {
     this.wm.resize(event.id, event.width, event.height);
   }
+
+  onExitDesktop(): void {
+    this.exitDesktop.emit();
+  }
 }
