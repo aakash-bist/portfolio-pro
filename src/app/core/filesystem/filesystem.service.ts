@@ -207,7 +207,7 @@ export class FileSystemService {
           this.dir('skills',
             SKILLS.map(cat => this.file(
               `${cat.name.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-')}.txt`,
-              cat.skills.map(s => `${s.name.padEnd(17)}${skillBar(s.level)}  ${s.level}%`).join('\n'),
+              cat.skills.map(s => `${s.name.padEnd(17)}${skillBar(s.level)}`).join('\n'),
             ))
           ),
         ]),

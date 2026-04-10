@@ -28,7 +28,7 @@ export const createSkillsCommand: CommandFactory = () => ({
     const sections = Object.entries(categories).map(([cat, items]) => {
       const title = `  ── ${cat.toUpperCase()} ──`;
       const rows = items!.map(s =>
-        `    ${s.name.padEnd(14)} ${skillBar(s.level)}  ${s.level}%`
+        `    ${s.name.padEnd(14)} ${skillBar(s.level)}`
       );
       return [title, ...rows].join('\n');
     });

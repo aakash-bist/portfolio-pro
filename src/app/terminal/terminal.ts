@@ -2,6 +2,7 @@ import { Component, ElementRef, ViewChild, AfterViewChecked, computed, inject, s
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TerminalService } from './terminal.service';
+import { ABOUT, SKILLS, PROJECTS, EXPERIENCE, CONTACT } from '../shared/data/portfolio.data';
 
 @Component({
   selector: 'app-terminal',
@@ -145,82 +146,67 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
       this.shouldScroll = true;
     };
 
-    // Phase 1: Hardware (portfolio stats as system specs)
+    // Phase 1: Identity from ABOUT
     out('AAKASH_OS BIOS v2.4.1 — POST check...');
     await this.delay(200);
-    out('Experience:  6+ years         Status: Active');
+    out(`Name:        ${ABOUT.name.padEnd(20)} Role:    ${ABOUT.role.split('|')[0].trim()}`);
     await this.delay(100);
-    out('Stack:       MEAN / MERN      Mode:   Full-Stack');
+    out(`Location:    ${ABOUT.location.padEnd(20)} Edu:     ${ABOUT.education.split('—')[0].trim()}`);
     await this.delay(100);
-    out('Projects:    5 shipped        Awards: 2x SIH Winner');
+    out(`Awards:      ${ABOUT.awards}`);
     await this.delay(150);
     out('');
 
-    // Phase 2: Loading skill modules
+    // Phase 2: Loading skills from SKILLS
     out('Loading skill modules...');
     await this.delay(120);
 
-    const modules = [
-      { mod: 'angular@latest',      tag: 'frontend',   status: 'active' },
-      { mod: 'react@18',            tag: 'frontend',   status: 'active' },
-      { mod: 'nodejs@20-lts',       tag: 'backend',    status: 'active' },
-      { mod: 'nestjs@10',           tag: 'backend',    status: 'active' },
-      { mod: 'mongodb@7',           tag: 'database',   status: 'active' },
-      { mod: 'postgresql@16',       tag: 'database',   status: 'active' },
-      { mod: 'redis@7',             tag: 'cache',      status: 'active' },
-      { mod: 'elasticsearch@8',     tag: 'search',     status: 'active' },
-      { mod: 'docker@24',           tag: 'devops',     status: 'active' },
-      { mod: 'tailwindcss@3',       tag: 'styling',    status: 'active' },
-    ];
-
-    for (const m of modules) {
-      out(`  ✓ ${m.mod.padEnd(24)} [${m.tag}]`);
-      await this.delay(45 + Math.random() * 40);
+    let totalSkills = 0;
+    for (const cat of SKILLS) {
+      for (const skill of cat.skills) {
+        out(`  ✓ ${skill.name.padEnd(22)} [${cat.name.toLowerCase()}]`);
+        totalSkills++;
+        await this.delay(35 + Math.random() * 30);
+      }
     }
-    out(`${modules.length} modules loaded.`);
+    out(`${totalSkills} modules loaded across ${SKILLS.length} categories.`);
     await this.delay(100);
     out('');
 
-    // Phase 3: Mounting work experience
+    // Phase 3: Mounting work experience from EXPERIENCE
     out('Mounting work experience...');
     await this.delay(100);
-    out('  /exp/supplycopia      Sr. Software Developer    2025–present');
-    await this.delay(60);
-    out('  /exp/algoscale        Team Lead (MEAN Stack)    2021–2025');
-    await this.delay(60);
-    out('  /exp/e-tech           MEAN Stack Developer      2020–2021');
-    await this.delay(60);
-    out('  /exp/planify          Frontend Developer        2019');
-    await this.delay(80);
-    out('Experience timeline mounted.');
+    for (const job of EXPERIENCE) {
+      const path = `/exp/${job.company.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-')}`;
+      out(`  ${path.padEnd(24)} ${job.title.padEnd(28)} ${job.period}`);
+      await this.delay(55);
+    }
+    out(`${EXPERIENCE.length} positions mounted.`);
     out('');
 
-    // Phase 4: Indexing projects
+    // Phase 4: Indexing projects from PROJECTS
     out('Indexing shipped projects...');
     await this.delay(100);
-    out('  [1] SC Analytics       Angular · Redshift · Redis       ● live');
-    await this.delay(50);
-    out('  [2] MR Reporting       Angular · Loopback · MongoDB     ● live   2000+ users');
-    await this.delay(50);
-    out('  [3] Dhaam Organics     React · Node.js · Cloudinary     ● live');
-    await this.delay(50);
-    out('  [4] STET Sikkim        Angular · Node.js · MongoDB      ● live   SIH Winner');
-    await this.delay(50);
-    out('  [5] AAKASH_OS          Angular · TypeScript              ◌ dev    you are here');
-    await this.delay(80);
-    out('Project index built.');
+    for (const p of PROJECTS) {
+      const status = p.status === 'In Development' ? '◌ dev ' : '● live';
+      out(`  [${p.id}] ${p.name.padEnd(20)} ${p.tech.slice(0, 40).padEnd(42)} ${status}`);
+      await this.delay(45);
+    }
+    out(`${PROJECTS.length} projects indexed.`);
     out('');
 
-    // Phase 5: System ready
+    // Phase 5: Starting services from CONTACT
     out('Starting services...');
     await this.delay(80);
-    out('  portfolio-server ......... running on :443');
-    await this.delay(50);
-    out('  contact-bridge ........... aakashbist@outlook.com');
-    await this.delay(50);
-    out('  github-link .............. github.com/aakash-bist');
-    await this.delay(50);
-    out('  linkedin-link ............ linkedin.com/in/aakash-bist');
+    out('  portfolio-server ......... running...');
+    await this.delay(40);
+    for (const c of CONTACT) {
+      if (c.href || c.label === 'Email') {
+        const svc = `${c.label.toLowerCase()}-link`;
+        out(`  ${svc.padEnd(25)} ${c.value}`);
+        await this.delay(40);
+      }
+    }
     await this.delay(80);
     out('');
     out('All systems operational.');
@@ -251,26 +237,26 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
       '',
     ].join('\n') : [
        '',
-      '  ╔══════════════════════════════════════════════════════╗',
-      '  ║                                                      ║',
-      '  ║     █████╗  █████╗ ██╗  ██╗ █████╗ ███████╗██╗  ██╗  ║',
-      '  ║    ██╔══██╗██╔══██╗██║ ██╔╝██╔══██╗██╔════╝██║  ██║  ║',
-      '  ║    ███████║███████║█████╔╝ ███████║███████╗███████║  ║',
-      '  ║    ██╔══██║██╔══██║██╔═██╗ ██╔══██║╚════██║██╔══██║  ║',
-      '  ║    ██║  ██║██║  ██║██║  ██╗██║  ██║███████║██║  ██║  ║',
-      '  ║    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝  ║',
-      '  ║                                                      ║',
-      '  ║   Portfolio Experience | Full-Stack Developer         ║',
-      '  ║                                                      ║',
-      '  ╠══════════════════════════════════════════════════════╣',
-      '  ║                                                      ║',
-      '  ║   Type "help" to see available commands              ║',
-      '  ║   Type "about" to learn more about me                ║',
-      '  ║   Type "projects" to view my work                    ║',
-      '  ║   Type "resume" to download my resume                ║',
-      '  ║   Type "startx" to launch desktop GUI                ║',
-      '  ║                                                      ║',
-      '  ╚══════════════════════════════════════════════════════╝',
+      '  ╔════════════════════════════════════════════════════════╗',
+      '  ║                                                        ║',
+      '  ║     █████╗  █████╗ ██╗  ██╗ █████╗ ███████╗██╗  ██╗    ║',
+      '  ║    ██╔══██╗██╔══██╗██║ ██╔╝██╔══██╗██╔════╝██║  ██║    ║',
+      '  ║    ███████║███████║█████╔╝ ███████║███████╗███████║    ║',
+      '  ║    ██╔══██║██╔══██║██╔═██╗ ██╔══██║╚════██║██╔══██║    ║',
+      '  ║    ██║  ██║██║  ██║██║  ██╗██║  ██║███████║██║  ██║    ║',
+      '  ║    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝    ║',
+      '  ║                                                        ║',
+      '  ║   Portfolio Experience | Full-Stack Developer          ║',
+      '  ║                                                        ║',
+      '  ╠════════════════════════════════════════════════════════╣',
+      '  ║                                                        ║',
+      '  ║   Type "help" to see available commands                ║',
+      '  ║   Type "about" to learn more about me                  ║',
+      '  ║   Type "projects" to view my work                      ║',
+      '  ║   Type "resume" to download my resume                  ║',
+      '  ║   Type "startx" to launch desktop GUI                  ║',
+      '  ║                                                        ║',
+      '  ╚════════════════════════════════════════════════════════╝',
       '',
     ].join('\n');
 
