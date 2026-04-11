@@ -1,10 +1,21 @@
 <div class="icons-container">
+  <!-- Ghost target cell shown at snap destination while dragging -->
+  @if (ghostTarget(); as target) {
+    <div
+      class="grid-cell-target"
+      [style.left.px]="target.x"
+      [style.top.px]="target.y"
+    ></div>
+  }
+
   @for (icon of icons(); track icon.id) {
     <div
       class="desktop-icon"
+      [class.dragging]="draggingId() === icon.id"
       [style.left.px]="icon.x"
       [style.top.px]="icon.y"
       (mousedown)="onMouseDown($event, icon)"
+      (touchstart)="onTouchStart($event, icon)"
       (dblclick)="onDblClick(icon)"
     >
       <span class="icon-emoji">{{ icon.icon }}</span>
