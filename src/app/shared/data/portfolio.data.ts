@@ -43,17 +43,16 @@ export interface ProjectItem {
   id: number;
   name: string;
   tech: string;
-  status: 'Completed' | 'In Development' | 'Archived';
   desc: string;
   url: string;
 }
 
 export const PROJECTS: ProjectItem[] = [
-  { id: 1, name: 'SC Analytics', tech: 'Angular, Express.js, Redis, MySQL, MongoDB, Redshift, Elasticsearch', status: 'Completed', desc: 'Powerful data querying system using Amazon Redshift with interactive filters, widgets, and dynamic visualizations', url: '' },
-  { id: 2, name: 'MR Reporting', tech: 'Angular, Loopback 3, MongoDB', status: 'Completed', desc: 'B2B SaaS platform used by 2000+ clients for field activity management, boosting efficiency by 40%', url: '' },
-  { id: 3, name: 'Dhaam Organics', tech: 'React, Node.js, MongoDB, Cloudinary, Material UI', status: 'Completed', desc: 'Complete e-commerce application streamlining the farm-to-table experience', url: '' },
-  { id: 4, name: 'STET Sikkim', tech: 'Angular, Node.js, MongoDB', status: 'Completed', desc: 'Record management system for Sikkim Govt — Smart India Hackathon winning solution', url: '' },
-  { id: 5, name: 'AAKASH_OS', tech: 'Angular, TypeScript, Tailwind', status: 'In Development', desc: 'Terminal-based portfolio OS simulating a Linux desktop environment', url: 'https://github.com/aakash-bist/aakash-os' },
+  { id: 1, name: 'SC Analytics', tech: 'Angular, Express.js, Redis, MySQL, MongoDB, Redshift, Elasticsearch', desc: 'Powerful data querying system using Amazon Redshift with interactive filters, widgets, and dynamic visualizations', url: '' },
+  { id: 2, name: 'MR Reporting', tech: 'Angular, Loopback 3, MongoDB', desc: 'B2B SaaS platform used by 2000+ clients for field activity management, boosting efficiency by 40%', url: '' },
+  { id: 3, name: 'Dhaam Organics', tech: 'React, Node.js, MongoDB, Cloudinary, Material UI', desc: 'Complete e-commerce application streamlining the farm-to-table experience', url: '' },
+  { id: 4, name: 'STET Sikkim', tech: 'Angular, Node.js, MongoDB', desc: 'Record management system for Sikkim Govt — Smart India Hackathon winning solution', url: '' },
+  { id: 5, name: 'AAKASH_OS', tech: 'Angular, TypeScript, Tailwind', desc: 'Terminal-based portfolio OS simulating a Linux desktop environment', url: 'https://github.com/aakash-bist/aakash-os' },
 ];
 
 export interface Skill {

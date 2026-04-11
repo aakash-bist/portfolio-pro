@@ -180,9 +180,6 @@ export class FileSystemService {
       return '█'.repeat(filled) + '░'.repeat(20 - filled);
     };
 
-    const currentProjects = PROJECTS.filter(p => p.status === 'In Development');
-    const completedProjects = PROJECTS.filter(p => p.status !== 'In Development');
-
     const root = this.dir('/', [
       this.dir('home', [
         this.dir('aakash', [
@@ -190,20 +187,12 @@ export class FileSystemService {
           this.file('about.txt', aboutContent),
           this.file('resume.txt', resumeContent),
           this.file('contact.txt', contactContent),
-          this.dir('projects', [
-            this.dir('current',
-              currentProjects.map(p => this.file(
-                `${p.name.toLowerCase().replace(/[_\s]+/g, '-')}.md`,
-                `Project: ${p.name}\nTech:    ${p.tech}\nDesc:    ${p.desc}\nStatus:  ${p.status}`,
-              ))
-            ),
-            this.dir('completed',
-              completedProjects.map(p => this.file(
-                `${p.name.toLowerCase().replace(/[_\s]+/g, '-')}.md`,
-                `Project: ${p.name}\nTech:    ${p.tech}\nDesc:    ${p.desc}\nStatus:  ${p.status}`,
-              ))
-            ),
-          ]),
+          this.dir('projects',
+            PROJECTS.map(p => this.file(
+              `${p.name.toLowerCase().replace(/[_\s]+/g, '-')}.md`,
+              `Project: ${p.name}\nTech:    ${p.tech}\nDesc:    ${p.desc}`,
+            ))
+          ),
           this.dir('skills',
             SKILLS.map(cat => this.file(
               `${cat.name.toLowerCase().replace(/\s*&\s*/g, '-').replace(/\s+/g, '-')}.txt`,

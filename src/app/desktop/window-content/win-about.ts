@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ABOUT, RESUME_URL } from '../../shared/data/portfolio.data';
 
 @Component({
@@ -6,7 +6,7 @@ import { ABOUT, RESUME_URL } from '../../shared/data/portfolio.data';
   standalone: true,
   template: `
     <div class="about-content">
-      <img class="avatar" src="profile.png" alt="{{ about.name }}" />
+      <img class="avatar" src="profile.png" alt="{{ about.name }}" (click)="showLightbox.set(true)" />
       <h2>{{ about.name }}</h2>
       <p class="role">{{ about.role }}</p>
       <p class="location">📍 {{ about.location }}</p>
@@ -26,6 +26,12 @@ import { ABOUT, RESUME_URL } from '../../shared/data/portfolio.data';
         📄 Download Resume
       </a>
     </div>
+
+    @if (showLightbox()) {
+      <div class="lightbox" (click)="showLightbox.set(false)">
+        <img class="lightbox-img" src="profile.png" alt="{{ about.name }}" />
+      </div>
+    }
   `,
   styles: `
     .about-content {
@@ -42,7 +48,10 @@ import { ABOUT, RESUME_URL } from '../../shared/data/portfolio.data';
       border: 3px solid #00ff41;
       margin: 0 auto 16px;
       display: block;
+      cursor: pointer;
+      transition: transform 0.2s;
     }
+    .avatar:hover { transform: scale(1.05); }
     @media (max-width: 600px) {
       .about-content { padding: 16px; }
       .avatar { width: 90px; height: 90px; }
@@ -71,9 +80,32 @@ import { ABOUT, RESUME_URL } from '../../shared/data/portfolio.data';
       transition: background 0.2s;
     }
     .download-btn:hover { background: #00cc33; }
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 20000;
+      cursor: pointer;
+    }
+    .lightbox-img {
+      max-width: 90vw;
+      max-height: 90vh;
+      border-radius: 12px;
+      border: 3px solid #00ff41;
+      object-fit: contain;
+      animation: lightbox-in 0.2s ease-out;
+    }
+    @keyframes lightbox-in {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
   `,
 })
 export class WinAboutComponent {
   readonly about = ABOUT;
   readonly resumeUrl = RESUME_URL;
+  readonly showLightbox = signal(false);
 }

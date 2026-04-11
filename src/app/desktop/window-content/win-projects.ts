@@ -11,7 +11,6 @@ import { PROJECTS } from '../../shared/data/portfolio.data';
         <div class="project-card">
           <div class="project-header">
             <span class="project-name">{{ p.name }}</span>
-            <span class="project-status" [class]="p.status.toLowerCase().replace(' ', '-')">{{ p.status }}</span>
           </div>
           <p class="project-desc">{{ p.desc }}</p>
           <span class="project-tech">{{ p.tech }}</span>
@@ -36,16 +35,6 @@ import { PROJECTS } from '../../shared/data/portfolio.data';
     .project-card:hover { border-color: #555; }
     .project-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
     .project-name { color: #fff; font-weight: 600; font-size: 14px; }
-    .project-status {
-      font-size: 11px;
-      padding: 2px 8px;
-      border-radius: 10px;
-      background: #333;
-      color: #aaa;
-    }
-    .project-status.in-development { background: #1a3a1a; color: #4ade80; }
-    .project-status.completed { background: #1a2a3a; color: #60a5fa; }
-    .project-status.archived { background: #3a2a1a; color: #f59e0b; }
     .project-desc { color: #999; font-size: 13px; margin: 4px 0 8px; }
     .project-tech { color: #666; font-size: 12px; }
     @media (max-width: 600px) {

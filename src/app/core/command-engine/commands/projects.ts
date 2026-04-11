@@ -20,7 +20,6 @@ export const createProjectsCommand: CommandFactory = () => ({
           `┌─── ${project.name} ───`,
           `│ ID:     ${project.id}`,
           `│ Tech:   ${project.tech}`,
-          `│ Status: ${project.status}`,
           `│ Desc:   ${project.desc}`,
           `│ URL:    ${project.url}`,
           `└${'─'.repeat(30)}`,
@@ -28,11 +27,26 @@ export const createProjectsCommand: CommandFactory = () => ({
       };
     }
 
-    const header = `  ${'ID'.padEnd(4)} ${'Name'.padEnd(14)} ${'Tech'.padEnd(32)} ${'Status'}`;
-    const sep = '  ' + '─'.repeat(70);
+    const header = `  ${'ID'.padEnd(4)} ${'Name'.padEnd(14)} ${'Tech'}`;
+    const sep = '  ' + '─'.repeat(60);
     const rows = PROJECTS.map(p =>
-      `  ${String(p.id).padEnd(4)} ${p.name.padEnd(14)} ${p.tech.padEnd(32)} ${p.status}`
+      `  ${String(p.id).padEnd(4)} ${p.name.padEnd(14)} ${p.tech}`
     );
+
+    // Use compact card layout for narrow viewports
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 600;
+
+    if (isMobile) {
+      const cards = PROJECTS.map(p => [
+        `  [${p.id}] ${p.name}`,
+        `      ${p.tech}`,
+      ].join('\n'));
+
+      return {
+        isError: false,
+        output: ['Projects:', '', ...cards, '', 'Use "projects --open <id>" for details'].join('\n'),
+      };
+    }
 
     return {
       isError: false,
