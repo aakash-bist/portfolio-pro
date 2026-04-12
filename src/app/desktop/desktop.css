@@ -1,7 +1,21 @@
 .desktop {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 40%, #16213e 100%);
+  background: #1E1E1E;
   position: relative;
   overflow: hidden;
+}
+
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20vw;
+  font-weight: 700;
+  color: #151515;
+  pointer-events: none;
+  user-select: none;
+  letter-spacing: 0.05em;
+  z-index: 0;
 }

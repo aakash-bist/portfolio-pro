@@ -20,6 +20,7 @@ export interface Command {
 export interface CommandResult {
   output: string;
   isError: boolean;
+  isHtml?: boolean;
   clearScreen?: boolean;
   startGui?: boolean;
   downloadFile?: string;
@@ -30,4 +31,5 @@ export interface TerminalLine {
   command?: string;
   output?: string;
   isError?: boolean;
+  isHtml?: boolean;
 }

@@ -31,7 +31,7 @@ export class TerminalService {
     }
 
     if (result.output) {
-      this.addOutput({ output: result.output, isError: result.isError });
+      this.addOutput({ output: result.output, isError: result.isError, isHtml: result.isHtml });
     }
 
     if (result.startGui) {

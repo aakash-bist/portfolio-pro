@@ -1,6 +1,7 @@
 <div class="terminal" (click)="focusInput()">
   <div class="scanlines"></div>
   <div class="glow-overlay"></div>
+  <div class="watermark">&gt;_</div>
 
   <div class="output" #outputContainer>
     @for (line of lines(); track $index) {
@@ -11,7 +12,11 @@
         </div>
       }
       @if (line.output) {
-        <pre class="result" [class.error]="line.isError" [class.boot-line]="!booted()">{{ line.output }}</pre>
+        @if (line.isHtml) {
+          <pre class="result" [class.error]="line.isError" [class.boot-line]="!booted()" [innerHTML]="line.output"></pre>
+        } @else {
+          <pre class="result" [class.error]="line.isError" [class.boot-line]="!booted()">{{ line.output }}</pre>
+        }
       }
     }
   </div>
@@ -41,6 +46,8 @@
         <span class="hint" (click)="runQuickCommand('projects'); $event.stopPropagation()">projects</span>
         <span class="hint-sep">·</span>
         <span class="hint" (click)="runQuickCommand('skills'); $event.stopPropagation()">skills</span>
+        <span class="hint-sep">·</span>
+        <span class="hint" (click)="runQuickCommand('experience'); $event.stopPropagation()">experience</span>
         <span class="hint-sep">·</span>
         <span class="hint" (click)="runQuickCommand('startx'); $event.stopPropagation()">startx</span>
         <span class="hint-spacer"></span>

@@ -2,7 +2,6 @@ import { Component, ElementRef, ViewChild, AfterViewChecked, computed, inject, s
 import { isPlatformBrowser } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { TerminalService } from './terminal.service';
-import { ABOUT, SKILLS, PROJECTS, EXPERIENCE, CONTACT } from '../shared/data/portfolio.data';
 
 @Component({
   selector: 'app-terminal',
@@ -146,112 +145,77 @@ export class TerminalComponent implements OnInit, AfterViewChecked {
       this.shouldScroll = true;
     };
 
-    // Phase 1: Identity from ABOUT
-    out('AAKASH_OS BIOS v2.4.1 — POST check...');
-    await this.delay(200);
-    out(`Name:        ${ABOUT.name.padEnd(20)} Role:    ${ABOUT.role.split('|')[0].trim()}`);
-    await this.delay(100);
-    out(`Location:    ${ABOUT.location.padEnd(20)} Edu:     ${ABOUT.education.split('—')[0].trim()}`);
-    await this.delay(100);
-    out(`Awards:      ${ABOUT.awards}`);
-    await this.delay(150);
-    out('');
-
-    // Phase 2: Loading skills from SKILLS
-    out('Loading skill modules...');
-    await this.delay(120);
-
-    let totalSkills = 0;
-    for (const cat of SKILLS) {
-      for (const skill of cat.skills) {
-        out(`  ✓ ${skill.name.padEnd(22)} [${cat.name.toLowerCase()}]`);
-        totalSkills++;
-        await this.delay(35 + Math.random() * 30);
-      }
-    }
-    out(`${totalSkills} modules loaded across ${SKILLS.length} categories.`);
-    await this.delay(100);
-    out('');
-
-    // Phase 3: Mounting work experience from EXPERIENCE
-    out('Mounting work experience...');
-    await this.delay(100);
-    for (const job of EXPERIENCE) {
-      const path = `/exp/${job.company.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-')}`;
-      out(`  ${path.padEnd(24)} ${job.title.padEnd(28)} ${job.period}`);
-      await this.delay(55);
-    }
-    out(`${EXPERIENCE.length} positions mounted.`);
-    out('');
-
-    // Phase 4: Indexing projects from PROJECTS
-    out('Indexing shipped projects...');
-    await this.delay(100);
-    for (const p of PROJECTS) {
-      out(`  [${p.id}] ${p.name.padEnd(20)} ${p.tech.slice(0, 40).padEnd(42)}`);
-      await this.delay(45);
-    }
-    out(`${PROJECTS.length} projects indexed.`);
-    out('');
-
-    // Phase 5: Starting services from CONTACT
-    out('Starting services...');
-    await this.delay(80);
-    out('  portfolio-server ......... running...');
-    await this.delay(40);
-    for (const c of CONTACT) {
-      if (c.href || c.label === 'Email') {
-        const svc = `${c.label.toLowerCase()}-link`;
-        out(`  ${svc.padEnd(25)} ${c.value}`);
-        await this.delay(40);
-      }
-    }
-    await this.delay(80);
-    out('');
-    out('All systems operational.');
-    out(`AAKASH_PORTFOLIO v1.0.0 — ${new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}`);
-    await this.delay(150);
-
     const isMobile = window.innerWidth < 600;
 
-    const banner = isMobile ? [
-      '',
-      '  A A K A S H',
-      '  P O R T F O L I O',
-      '',
-      '  Full-Stack Developer',
-      '  Noida, India',
-      '',
-      '  ─────────────────────────',
-      '',
-      '  > help     - commands',
-      '  > about    - about me',
-      '  > projects - my work',
-      '  > resume   - download',
-      '  > startx   - launch GUI',
-      '',
-    ].join('\n') : [
-      '',
-      '     █████╗  █████╗ ██╗  ██╗ █████╗ ███████╗██╗  ██╗',
-      '    ██╔══██╗██╔══██╗██║ ██╔╝██╔══██╗██╔════╝██║  ██║',
-      '    ███████║███████║█████╔╝ ███████║███████╗███████║',
-      '    ██╔══██║██╔══██║██╔═██╗ ██╔══██║╚════██║██╔══██║',
-      '    ██║  ██║██║  ██║██║  ██╗██║  ██║███████║██║  ██║',
-      '    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝',
-      '',
-      '   Portfolio Experience | Full-Stack Developer',
-      '',
-      '   ──────────────────────────────────────────────',
-      '',
-      '   Type "help" to see available commands',
-      '   Type "about" to learn more about me',
-      '   Type "projects" to view my work',
-      '   Type "resume" to download my resume',
-      '   Type "startx" to launch desktop GUI',
-      '',
-    ].join('\n');
+    // ── Boot sequence ──
+    out('Booting AAKASH_OS v2.4.1...');
+    await this.delay(300);
+    out('');
 
-    this.terminalService.addOutput({ output: banner });
+    const pad = (text: string, width: number) => text + ' '.repeat(Math.max(0, width - text.length));
+    const cols = isMobile ? 36 : 56;
+    const ok = '[ OK ]';
+
+    const groups: { label: string; steps: string[] }[] = [
+      { label: '[ Core ]', steps: ['Initializing modules...', 'Mounting filesystem...'] },
+      { label: '[ Data ]', steps: ['Connecting pipelines...', 'Syncing projects...'] },
+      { label: '[ User ]', steps: ['Loading profile...', 'Establishing session...'] },
+    ];
+
+    for (const group of groups) {
+      out(group.label);
+      for (const step of group.steps) {
+        const line = '  ✔ ' + pad(step, cols - 4 - ok.length) + ok;
+        out(line);
+        await this.delay(200);
+      }
+      out('');
+      out('');
+      await this.delay(150);
+    }
+
+    out('System ready.');
+    await this.delay(200);
+    this.terminalService.addOutput({ prompt: this.terminalService.prompt(), command: 'whoami' });
+    await this.delay(300);
+    // out('Aakash — Full Stack Developer | Analytics Systems');
+    await this.delay(200);
+
+    if (isMobile) {
+      const banner = [
+        '',
+        '  ▄▀█ ▄▀█ █▄▀ ▄▀█ █▀ █ █',
+        '  █▀█ █▀█ █ █ █▀█ ▄█ █▀█',
+        '',
+        '      █▄▄ █ █▀ ▀█▀',
+        '      █▄█ █ ▄█  █',
+        '',
+        '  Full-Stack Developer',
+        '  Noida, India',
+        '',
+        '  Type "help" to get started.',
+        '',
+      ].join('\n');
+      this.terminalService.addOutput({ output: banner });
+    } else {
+      const bannerLines = [
+        '     █████╗  █████╗ ██╗  ██╗ █████╗ ███████╗██╗  ██╗',
+        '    ██╔══██╗██╔══██╗██║ ██╔╝██╔══██╗██╔════╝██║  ██║',
+        '    ███████║███████║█████╔╝ ███████║███████╗███████║',
+        '    ██╔══██║██╔══██║██╔═██╗ ██╔══██║╚════██║██╔══██║',
+        '    ██║  ██║██║  ██║██║  ██╗██║  ██║███████║██║  ██║',
+        '    ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝',
+        '',
+        '    ██████╗ ██╗███████╗████████╗',
+        '    ██╔══██╗██║██╔════╝╚══██╔══╝',
+        '    ██████╔╝██║███████╗   ██║',
+        '    ██╔══██╗██║╚════██║   ██║',
+        '    ██████╔╝██║███████║   ██║',
+        '    ╚═════╝ ╚═╝╚══════╝   ╚═╝',
+      ];
+      const banner = '\n' + bannerLines.join('\n') + '\n\n    Full-Stack Developer | Noida, India\n\n    Type "help" to get started.\n';
+      this.terminalService.addOutput({ output: banner });
+    }
     this.shouldScroll = true;
 
     await this.delay(100);

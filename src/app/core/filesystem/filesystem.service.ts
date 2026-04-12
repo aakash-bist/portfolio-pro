@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { FileSystemNode } from '../../shared/models';
-import { ABOUT, CONTACT, EXPERIENCE, PROJECTS, SKILLS } from '../../shared/data/portfolio.data';
+import { ABOUT, CONTACT, EXPERIENCE, PROJECTS, SKILLS, computeDuration } from '../../shared/data/portfolio.data';
 
 @Injectable({ providedIn: 'root' })
 export class FileSystemService {
@@ -165,7 +165,7 @@ export class FileSystemService {
       'WORK EXPERIENCE',
       '═══════════════',
       ...EXPERIENCE.flatMap(e => [
-        `${e.title} | ${e.company}     ${e.period}`,
+        `${e.title} | ${e.company}     ${e.period} (${computeDuration(e.period)})`,
         ...e.highlights.map(h => `  - ${h}`),
         '',
       ]),

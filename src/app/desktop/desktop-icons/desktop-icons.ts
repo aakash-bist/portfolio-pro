@@ -22,7 +22,8 @@ export class DesktopIconsComponent {
     { id: 'projects', label: 'Projects', windowType: 'projects', icon: '📁', x: 0, y: 180 },
     { id: 'skills', label: 'Skills', windowType: 'skills', icon: '⚡', x: 0, y: 270 },
     { id: 'contact', label: 'Contact', windowType: 'contact', icon: '✉', x: 0, y: 360 },
-    { id: 'files', label: 'Files', windowType: 'file-manager', icon: '📂', x: 0, y: 450 },
+    { id: 'experience', label: 'Experience', windowType: 'experience', icon: '💼', x: 0, y: 450 },
+    { id: 'files', label: 'Files', windowType: 'file-manager', icon: '📂', x: 0, y: 540 },
   ]);
 
   readonly draggingId = signal<string | null>(null);

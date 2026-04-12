@@ -18,6 +18,7 @@ import {
   createContactCommand,
   createStartxCommand,
   createResumeCommand,
+  createExperienceCommand,
 } from './commands';
 
 @Injectable({ providedIn: 'root' })
@@ -47,6 +48,7 @@ export class CommandEngineService {
     createContactCommand,
     createStartxCommand,
     createResumeCommand,
+    createExperienceCommand,
   ];
 
   constructor() {

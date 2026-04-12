@@ -12,3 +12,4 @@ export { createSkillsCommand } from './skills';
 export { createContactCommand } from './contact';
 export { createStartxCommand } from './startx';
 export { createResumeCommand } from './resume';
+export { createExperienceCommand } from './experience';

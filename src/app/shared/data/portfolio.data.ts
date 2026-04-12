@@ -34,7 +34,7 @@ export interface ContactItem {
 export const CONTACT: ContactItem[] = [
   { icon: '📍', label: 'Location', value: 'Noida, India' },
   { icon: '📞', label: 'Phone', value: '(+91) 9555747477' },
-  { icon: '✉', label: 'Email', value: 'aakashbist@outlook.com', href: 'mailto:aakashbist@outlook.com' },
+  { icon: '📧', label: 'Email', value: 'aakashbist@outlook.com', href: 'mailto:aakashbist@outlook.com' },
   { icon: '🔗', label: 'LinkedIn', value: 'linkedin.com/in/aakash-bist', href: 'https://linkedin.com/in/aakash-bist' },
   { icon: '💻', label: 'GitHub', value: 'github.com/aakash-bist', href: 'https://github.com/aakash-bist' },
 ];
@@ -102,6 +102,34 @@ export interface WorkExperience {
   company: string;
   period: string;
   highlights: string[];
+}
+
+const MONTH_MAP: Record<string, number> = {
+  Jan: 0, Feb: 1, Mar: 2, Apr: 3, May: 4, Jun: 5,
+  Jul: 6, Aug: 7, Sep: 8, Oct: 9, Nov: 10, Dec: 11,
+};
+
+export function computeDuration(period: string): string {
+  const parts = period.split(' - ');
+  const [startMon, startYr] = parts[0].split(' ');
+  const start = new Date(+startYr, MONTH_MAP[startMon]);
+
+  let end: Date;
+  if (parts[1].trim() === 'Present') {
+    end = new Date();
+  } else {
+    const [endMon, endYr] = parts[1].trim().split(' ');
+    end = new Date(+endYr, MONTH_MAP[endMon]);
+  }
+
+  let months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+  if (months < 1) months = 1;
+  const yrs = Math.floor(months / 12);
+  const mos = months % 12;
+
+  if (yrs === 0) return `${mos} mo${mos !== 1 ? 's' : ''}`;
+  if (mos === 0) return `${yrs} yr${yrs !== 1 ? 's' : ''}`;
+  return `${yrs} yr${yrs !== 1 ? 's' : ''} ${mos} mo${mos !== 1 ? 's' : ''}`;
 }
 
 export const EXPERIENCE: WorkExperience[] = [

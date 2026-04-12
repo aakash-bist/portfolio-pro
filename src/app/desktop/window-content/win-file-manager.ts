@@ -5,8 +5,9 @@ import { WinAboutComponent } from './win-about';
 import { WinProjectsComponent } from './win-projects';
 import { WinSkillsComponent } from './win-skills';
 import { WinContactComponent } from './win-contact';
+import { WinExperienceComponent } from './win-experience';
 
-type Section = 'home' | 'about' | 'projects' | 'skills' | 'contact';
+type Section = 'home' | 'about' | 'projects' | 'skills' | 'contact' | 'experience';
 
 interface NavItem {
   id: Section;
@@ -17,7 +18,7 @@ interface NavItem {
 @Component({
   selector: 'app-win-file-manager',
   standalone: true,
-  imports: [WinAboutComponent, WinProjectsComponent, WinSkillsComponent, WinContactComponent],
+  imports: [WinAboutComponent, WinProjectsComponent, WinSkillsComponent, WinContactComponent, WinExperienceComponent],
   template: `
     <div class="file-manager">
       <!-- Toolbar -->
@@ -111,6 +112,9 @@ interface NavItem {
             }
             @case ('contact') {
               <app-win-contact />
+            }
+            @case ('experience') {
+              <app-win-experience />
             }
           }
         </main>
@@ -455,6 +459,7 @@ export class WinFileManagerComponent implements OnInit {
     { id: 'projects', label: 'Projects', icon: '📁' },
     { id: 'skills', label: 'Skills', icon: '⚡' },
     { id: 'contact', label: 'Contact', icon: '✉' },
+    { id: 'experience', label: 'Experience', icon: '💼' },
   ];
 
   private static readonly SECTION_MAP: Record<string, Section> = {
@@ -463,6 +468,7 @@ export class WinFileManagerComponent implements OnInit {
     'projects': 'projects',
     'skills': 'skills',
     'contact': 'contact',
+    'experience': 'experience',
   };
 
   readonly sectionTitle = computed(() => {
@@ -472,6 +478,7 @@ export class WinFileManagerComponent implements OnInit {
       projects: 'Projects',
       skills: 'Skills',
       contact: 'Contact',
+      experience: 'Experience',
     };
     return titles[this.activeSection()];
   });
